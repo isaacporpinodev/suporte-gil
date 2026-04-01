@@ -28,42 +28,44 @@ export default function PaginaClientes() {
         titulo="Clientes"
         descricao="Cadastro e histórico de clientes"
         acao={
-          <Button className="gap-2">
+          <Button className="gap-2 shadow-sm h-10 px-5">
             <Plus className="h-4 w-4" />
             Novo Cliente
           </Button>
         }
       />
 
-      <div className="rounded-lg border bg-card shadow-sm">
-        <div className="p-4 border-b">
+      <div className="card-premium">
+        <div className="p-4 border-b border-border/50">
           <div className="relative max-w-sm">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground/60" />
             <Input
               placeholder="Buscar por nome ou telefone..."
               value={busca}
               onChange={(e) => setBusca(e.target.value)}
-              className="pl-9 h-9 bg-secondary border-0"
+              className="pl-9 h-9 bg-muted/50 border-0 text-sm placeholder:text-muted-foreground/50 rounded-lg"
             />
           </div>
         </div>
         <div className="overflow-x-auto">
-          <table className="w-full text-sm">
+          <table className="w-full tabela-premium">
             <thead>
-              <tr className="border-b bg-muted/50">
-                <th className="text-left p-3 font-medium text-muted-foreground">Nome</th>
-                <th className="text-left p-3 font-medium text-muted-foreground">Telefone</th>
-                <th className="text-center p-3 font-medium text-muted-foreground">Qtd OS</th>
-                <th className="text-left p-3 font-medium text-muted-foreground">Última OS</th>
+              <tr>
+                <th>Nome</th>
+                <th>Telefone</th>
+                <th className="text-center">Qtd OS</th>
+                <th>Última OS</th>
               </tr>
             </thead>
             <tbody>
               {clientesFiltrados.map((c) => (
-                <tr key={c.id} className="border-b last:border-0 hover:bg-muted/30 transition-colors cursor-pointer">
-                  <td className="p-3 font-medium text-foreground">{c.nome}</td>
-                  <td className="p-3 text-muted-foreground">{c.telefone}</td>
-                  <td className="p-3 text-center text-foreground">{c.quantidadeOS}</td>
-                  <td className="p-3 text-muted-foreground">{c.ultimaOS}</td>
+                <tr key={c.id} className="cursor-pointer">
+                  <td className="font-semibold text-foreground">{c.nome}</td>
+                  <td className="text-muted-foreground tabular-nums">{c.telefone}</td>
+                  <td className="text-center">
+                    <span className="badge-status bg-primary/8 text-primary border border-primary/15">{c.quantidadeOS}</span>
+                  </td>
+                  <td className="text-muted-foreground tabular-nums">{c.ultimaOS}</td>
                 </tr>
               ))}
             </tbody>

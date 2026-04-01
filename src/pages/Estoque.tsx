@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Plus, Search, AlertTriangle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { cn } from "@/lib/utils";
 
 const produtos = [
   { id: 1, nome: "Tela LCD iPhone 14 Pro", categoria: "Telas", quantidade: 8, minimo: 3, custo: "R$ 120,00", preco: "R$ 180,00", baixo: false },
@@ -30,51 +31,55 @@ export default function PaginaEstoque() {
         titulo="Estoque"
         descricao="Controle de peças e produtos"
         acao={
-          <Button onClick={() => navigate("/estoque/novo")} className="gap-2">
+          <Button onClick={() => navigate("/estoque/novo")} className="gap-2 shadow-sm h-10 px-5">
             <Plus className="h-4 w-4" />
             Novo Produto
           </Button>
         }
       />
 
-      <div className="rounded-lg border bg-card shadow-sm">
-        <div className="p-4 border-b">
+      <div className="card-premium">
+        <div className="p-4 border-b border-border/50">
           <div className="relative max-w-sm">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground/60" />
             <Input
               placeholder="Buscar produto ou categoria..."
               value={busca}
               onChange={(e) => setBusca(e.target.value)}
-              className="pl-9 h-9 bg-secondary border-0"
+              className="pl-9 h-9 bg-muted/50 border-0 text-sm placeholder:text-muted-foreground/50 rounded-lg"
             />
           </div>
         </div>
         <div className="overflow-x-auto">
-          <table className="w-full text-sm">
+          <table className="w-full tabela-premium">
             <thead>
-              <tr className="border-b bg-muted/50">
-                <th className="text-left p-3 font-medium text-muted-foreground">Produto</th>
-                <th className="text-left p-3 font-medium text-muted-foreground">Categoria</th>
-                <th className="text-center p-3 font-medium text-muted-foreground">Quantidade</th>
-                <th className="text-center p-3 font-medium text-muted-foreground">Mínimo</th>
-                <th className="text-right p-3 font-medium text-muted-foreground">Custo</th>
-                <th className="text-right p-3 font-medium text-muted-foreground">Preço</th>
+              <tr>
+                <th>Produto</th>
+                <th>Categoria</th>
+                <th className="text-center">Qtd</th>
+                <th className="text-center">Mínimo</th>
+                <th className="text-right">Custo</th>
+                <th className="text-right">Preço</th>
               </tr>
             </thead>
             <tbody>
               {produtosFiltrados.map((p) => (
-                <tr key={p.id} className={`border-b last:border-0 hover:bg-muted/30 transition-colors ${p.baixo ? "bg-destructive/5" : ""}`}>
-                  <td className="p-3 font-medium text-foreground flex items-center gap-2">
-                    {p.baixo && <AlertTriangle className="h-3.5 w-3.5 text-warning shrink-0" />}
-                    {p.nome}
+                <tr key={p.id} className={cn(p.baixo && "bg-destructive/[0.03]")}>
+                  <td className="font-medium text-foreground">
+                    <div className="flex items-center gap-2">
+                      {p.baixo && <AlertTriangle className="h-3.5 w-3.5 text-warning shrink-0" />}
+                      {p.nome}
+                    </div>
                   </td>
-                  <td className="p-3 text-muted-foreground">{p.categoria}</td>
-                  <td className={`p-3 text-center font-medium ${p.quantidade === 0 ? "text-destructive" : p.baixo ? "text-warning" : "text-foreground"}`}>
+                  <td>
+                    <span className="badge-status bg-muted text-muted-foreground">{p.categoria}</span>
+                  </td>
+                  <td className={cn("text-center font-semibold tabular-nums", p.quantidade === 0 ? "text-destructive" : p.baixo ? "text-warning" : "text-foreground")}>
                     {p.quantidade}
                   </td>
-                  <td className="p-3 text-center text-muted-foreground">{p.minimo}</td>
-                  <td className="p-3 text-right text-muted-foreground">{p.custo}</td>
-                  <td className="p-3 text-right font-medium text-foreground">{p.preco}</td>
+                  <td className="text-center text-muted-foreground tabular-nums">{p.minimo}</td>
+                  <td className="text-right text-muted-foreground tabular-nums">{p.custo}</td>
+                  <td className="text-right font-semibold text-foreground tabular-nums">{p.preco}</td>
                 </tr>
               ))}
             </tbody>

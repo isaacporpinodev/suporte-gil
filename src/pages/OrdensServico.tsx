@@ -48,34 +48,30 @@ export default function PaginaOrdens() {
         titulo="Ordens de Serviço"
         descricao="Gerencie todas as ordens de serviço"
         acao={
-          <Button onClick={() => navigate("/ordens/nova")} className="gap-2">
+          <Button onClick={() => navigate("/ordens/nova")} className="gap-2 shadow-sm h-10 px-5">
             <Plus className="h-4 w-4" />
             Nova Ordem de Serviço
           </Button>
         }
       />
 
-      <div className="rounded-lg border bg-card shadow-sm">
-        <div className="p-4 border-b space-y-3">
-          <div className="relative max-w-sm">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+      <div className="card-premium">
+        <div className="p-4 border-b border-border/50 flex flex-col sm:flex-row sm:items-center gap-3">
+          <div className="relative flex-1 max-w-sm">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground/60" />
             <Input
               placeholder="Buscar por nome, telefone ou nº OS..."
               value={busca}
               onChange={(e) => setBusca(e.target.value)}
-              className="pl-9 h-9 bg-secondary border-0"
+              className="pl-9 h-9 bg-muted/50 border-0 text-sm placeholder:text-muted-foreground/50 rounded-lg"
             />
           </div>
-          <div className="flex flex-wrap gap-1.5">
+          <div className="flex flex-wrap gap-1">
             {filtrosStatus.map((f) => (
               <button
                 key={f.valor}
                 onClick={() => setFiltroStatus(f.valor)}
-                className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
-                  filtroStatus === f.valor
-                    ? "bg-primary text-primary-foreground"
-                    : "bg-secondary text-muted-foreground hover:text-foreground"
-                }`}
+                className={`filtro-pill ${filtroStatus === f.valor ? "filtro-pill-ativo" : "filtro-pill-inativo"}`}
               >
                 {f.label}
               </button>
@@ -83,37 +79,37 @@ export default function PaginaOrdens() {
           </div>
         </div>
         <div className="overflow-x-auto">
-          <table className="w-full text-sm">
+          <table className="w-full tabela-premium">
             <thead>
-              <tr className="border-b bg-muted/50">
-                <th className="text-left p-3 font-medium text-muted-foreground">Nº OS</th>
-                <th className="text-left p-3 font-medium text-muted-foreground">Cliente</th>
-                <th className="text-left p-3 font-medium text-muted-foreground">Telefone</th>
-                <th className="text-left p-3 font-medium text-muted-foreground">Aparelho</th>
-                <th className="text-left p-3 font-medium text-muted-foreground">Status</th>
-                <th className="text-left p-3 font-medium text-muted-foreground">Entrada</th>
-                <th className="text-right p-3 font-medium text-muted-foreground">Valor</th>
+              <tr>
+                <th>Nº OS</th>
+                <th>Cliente</th>
+                <th>Telefone</th>
+                <th>Aparelho</th>
+                <th>Status</th>
+                <th>Entrada</th>
+                <th className="text-right">Valor</th>
               </tr>
             </thead>
             <tbody>
               {ordensFiltradas.map((os) => (
                 <tr
                   key={os.id}
-                  className="border-b last:border-0 hover:bg-muted/30 transition-colors cursor-pointer"
+                  className="cursor-pointer"
                   onClick={() => navigate(`/ordens/${os.id}`)}
                 >
-                  <td className="p-3 font-medium text-foreground">{os.id}</td>
-                  <td className="p-3 text-foreground">{os.cliente}</td>
-                  <td className="p-3 text-muted-foreground">{os.telefone}</td>
-                  <td className="p-3 text-muted-foreground">{os.aparelho}</td>
-                  <td className="p-3"><BadgeStatus status={os.status} /></td>
-                  <td className="p-3 text-muted-foreground">{os.dataEntrada}</td>
-                  <td className="p-3 text-right font-medium text-foreground">{os.valor}</td>
+                  <td className="font-semibold text-foreground">{os.id}</td>
+                  <td className="font-medium text-foreground">{os.cliente}</td>
+                  <td className="text-muted-foreground tabular-nums">{os.telefone}</td>
+                  <td className="text-muted-foreground">{os.aparelho}</td>
+                  <td><BadgeStatus status={os.status} /></td>
+                  <td className="text-muted-foreground tabular-nums">{os.dataEntrada}</td>
+                  <td className="text-right font-semibold text-foreground tabular-nums">{os.valor}</td>
                 </tr>
               ))}
               {ordensFiltradas.length === 0 && (
                 <tr>
-                  <td colSpan={7} className="p-8 text-center text-muted-foreground">
+                  <td colSpan={7} className="text-center text-muted-foreground py-12">
                     Nenhuma ordem encontrada.
                   </td>
                 </tr>

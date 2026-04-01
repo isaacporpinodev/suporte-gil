@@ -10,7 +10,11 @@ import {
   DollarSign,
   Wallet,
   AlertTriangle,
+  ArrowRight,
+  TrendingUp,
 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 const ordensRecentes = [
   { id: "OS-0042", cliente: "Maria Silva", aparelho: "iPhone 14 Pro", status: "em_andamento" as StatusOrdemServico, data: "01/04/2026", valor: "R$ 350,00" },
@@ -27,45 +31,63 @@ const alertasEstoque = [
 ];
 
 export default function PaginaDashboard() {
+  const navigate = useNavigate();
+
   return (
     <LayoutPrincipal>
-      <TituloPagina titulo="Dashboard" descricao="Visão geral do sistema" />
+      <TituloPagina
+        titulo="Dashboard"
+        descricao="Visão geral do sistema"
+        acao={
+          <Button onClick={() => navigate("/ordens/nova")} className="gap-2 shadow-sm">
+            <ClipboardList className="h-4 w-4" />
+            Nova OS
+          </Button>
+        }
+      />
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 mb-8">
+      <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 mb-8">
         <CardResumo titulo="OS Abertas" valor={8} icone={ClipboardList} variante="info" />
         <CardResumo titulo="Em Andamento" valor={12} icone={Wrench} variante="alerta" />
         <CardResumo titulo="Prontas" valor={5} icone={CheckCircle2} variante="sucesso" />
         <CardResumo titulo="Entregues Hoje" valor={3} icone={PackageCheck} variante="sucesso" />
-        <CardResumo titulo="Faturamento Dia" valor="R$ 2.450" icone={DollarSign} variante="padrao" />
+        <CardResumo titulo="Faturamento Dia" valor="R$ 2.450" icone={DollarSign} variante="padrao" descricao="+12% vs ontem" />
         <CardResumo titulo="Saldo Atual" valor="R$ 18.320" icone={Wallet} variante="sucesso" />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 rounded-lg border bg-card shadow-sm">
-          <div className="p-5 border-b">
-            <h2 className="font-semibold text-card-foreground">Ordens Recentes</h2>
+        {/* Ordens Recentes */}
+        <div className="lg:col-span-2 card-premium">
+          <div className="px-5 py-4 border-b border-border/50 flex items-center justify-between">
+            <div>
+              <h2 className="text-sm font-semibold text-card-foreground">Ordens Recentes</h2>
+              <p className="text-xs text-muted-foreground mt-0.5">Últimas 5 ordens de serviço</p>
+            </div>
+            <Button variant="ghost" size="sm" className="text-xs text-muted-foreground gap-1.5 h-8" onClick={() => navigate("/ordens")}>
+              Ver todas <ArrowRight className="h-3 w-3" />
+            </Button>
           </div>
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+            <table className="w-full tabela-premium">
               <thead>
-                <tr className="border-b bg-muted/50">
-                  <th className="text-left p-3 font-medium text-muted-foreground">Nº</th>
-                  <th className="text-left p-3 font-medium text-muted-foreground">Cliente</th>
-                  <th className="text-left p-3 font-medium text-muted-foreground">Aparelho</th>
-                  <th className="text-left p-3 font-medium text-muted-foreground">Status</th>
-                  <th className="text-left p-3 font-medium text-muted-foreground">Data</th>
-                  <th className="text-right p-3 font-medium text-muted-foreground">Valor</th>
+                <tr>
+                  <th>Nº</th>
+                  <th>Cliente</th>
+                  <th>Aparelho</th>
+                  <th>Status</th>
+                  <th>Data</th>
+                  <th className="text-right">Valor</th>
                 </tr>
               </thead>
               <tbody>
                 {ordensRecentes.map((os) => (
-                  <tr key={os.id} className="border-b last:border-0 hover:bg-muted/30 transition-colors">
-                    <td className="p-3 font-medium text-foreground">{os.id}</td>
-                    <td className="p-3 text-foreground">{os.cliente}</td>
-                    <td className="p-3 text-muted-foreground">{os.aparelho}</td>
-                    <td className="p-3"><BadgeStatus status={os.status} /></td>
-                    <td className="p-3 text-muted-foreground">{os.data}</td>
-                    <td className="p-3 text-right font-medium text-foreground">{os.valor}</td>
+                  <tr key={os.id} className="cursor-pointer" onClick={() => navigate(`/ordens/${os.id}`)}>
+                    <td className="font-semibold text-foreground">{os.id}</td>
+                    <td className="font-medium text-foreground">{os.cliente}</td>
+                    <td className="text-muted-foreground">{os.aparelho}</td>
+                    <td><BadgeStatus status={os.status} /></td>
+                    <td className="text-muted-foreground tabular-nums">{os.data}</td>
+                    <td className="text-right font-semibold text-foreground tabular-nums">{os.valor}</td>
                   </tr>
                 ))}
               </tbody>
@@ -73,23 +95,37 @@ export default function PaginaDashboard() {
           </div>
         </div>
 
-        <div className="rounded-lg border bg-card shadow-sm">
-          <div className="p-5 border-b flex items-center gap-2">
-            <AlertTriangle className="h-4 w-4 text-warning" />
-            <h2 className="font-semibold text-card-foreground">Estoque Baixo</h2>
+        {/* Estoque Baixo */}
+        <div className="card-premium">
+          <div className="px-5 py-4 border-b border-border/50 flex items-center gap-2.5">
+            <div className="h-7 w-7 rounded-lg bg-warning/10 flex items-center justify-center">
+              <AlertTriangle className="h-3.5 w-3.5 text-warning" />
+            </div>
+            <div>
+              <h2 className="text-sm font-semibold text-card-foreground">Estoque Baixo</h2>
+              <p className="text-xs text-muted-foreground">{alertasEstoque.length} itens</p>
+            </div>
           </div>
           <div className="p-2">
             {alertasEstoque.map((item) => (
-              <div key={item.produto} className="flex items-center justify-between p-3 rounded-md hover:bg-muted/30 transition-colors">
+              <div key={item.produto} className="flex items-center justify-between p-3 rounded-lg hover:bg-muted/40 transition-colors cursor-pointer">
                 <div>
                   <p className="text-sm font-medium text-foreground">{item.produto}</p>
-                  <p className="text-xs text-muted-foreground">Mínimo: {item.minimo}</p>
+                  <p className="text-[11px] text-muted-foreground mt-0.5">Mín: {item.minimo} unid.</p>
                 </div>
-                <span className={`text-sm font-bold ${item.quantidade === 0 ? "text-destructive" : "text-warning"}`}>
-                  {item.quantidade}
-                </span>
+                <div className="text-right">
+                  <span className={`text-lg font-bold tabular-nums ${item.quantidade === 0 ? "text-destructive" : "text-warning"}`}>
+                    {item.quantidade}
+                  </span>
+                  <p className="text-[10px] text-muted-foreground">em estoque</p>
+                </div>
               </div>
             ))}
+          </div>
+          <div className="px-5 pb-4">
+            <Button variant="outline" size="sm" className="w-full text-xs h-8 gap-1.5" onClick={() => navigate("/estoque")}>
+              Gerenciar Estoque <ArrowRight className="h-3 w-3" />
+            </Button>
           </div>
         </div>
       </div>

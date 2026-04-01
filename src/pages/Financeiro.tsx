@@ -5,6 +5,7 @@ import { CardResumo } from "@/components/CardResumo";
 import { TrendingUp, TrendingDown, Wallet } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { cn } from "@/lib/utils";
 
 const lancamentos = [
   { id: 1, descricao: "OS-0039 - Carlos Oliveira", tipo: "entrada" as const, valor: "R$ 150,00", data: "01/04/2026", forma: "Pix" },
@@ -32,31 +33,27 @@ export default function PaginaFinanceiro() {
     <LayoutPrincipal>
       <TituloPagina titulo="Financeiro" descricao="Controle financeiro gerencial" />
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
         <CardResumo titulo="Total Entradas" valor="R$ 1.200,00" icone={TrendingUp} variante="sucesso" />
         <CardResumo titulo="Total Saídas" valor="R$ 2.980,00" icone={TrendingDown} variante="alerta" />
         <CardResumo titulo="Saldo" valor="R$ 18.320,00" icone={Wallet} variante="padrao" />
       </div>
 
-      <div className="rounded-lg border bg-card shadow-sm">
-        <div className="p-4 border-b flex flex-wrap items-end gap-4">
+      <div className="card-premium">
+        <div className="p-4 border-b border-border/50 flex flex-wrap items-end gap-4">
           <div className="space-y-1.5">
-            <Label className="text-xs text-muted-foreground">Período</Label>
+            <Label className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Período</Label>
             <div className="flex gap-2">
-              <Input type="date" className="h-9 bg-secondary border-0 w-36" />
-              <Input type="date" className="h-9 bg-secondary border-0 w-36" />
+              <Input type="date" className="h-9 bg-muted/50 border-0 w-36 rounded-lg text-sm" />
+              <Input type="date" className="h-9 bg-muted/50 border-0 w-36 rounded-lg text-sm" />
             </div>
           </div>
-          <div className="flex gap-1.5">
+          <div className="flex gap-1">
             {filtrosTipo.map((f) => (
               <button
                 key={f.valor}
                 onClick={() => setFiltroTipo(f.valor)}
-                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
-                  filtroTipo === f.valor
-                    ? "bg-primary text-primary-foreground"
-                    : "bg-secondary text-muted-foreground hover:text-foreground"
-                }`}
+                className={`filtro-pill ${filtroTipo === f.valor ? "filtro-pill-ativo" : "filtro-pill-inativo"}`}
               >
                 {f.label}
               </button>
@@ -64,28 +61,31 @@ export default function PaginaFinanceiro() {
           </div>
         </div>
         <div className="overflow-x-auto">
-          <table className="w-full text-sm">
+          <table className="w-full tabela-premium">
             <thead>
-              <tr className="border-b bg-muted/50">
-                <th className="text-left p-3 font-medium text-muted-foreground">Descrição</th>
-                <th className="text-left p-3 font-medium text-muted-foreground">Tipo</th>
-                <th className="text-left p-3 font-medium text-muted-foreground">Data</th>
-                <th className="text-left p-3 font-medium text-muted-foreground">Forma</th>
-                <th className="text-right p-3 font-medium text-muted-foreground">Valor</th>
+              <tr>
+                <th>Descrição</th>
+                <th>Tipo</th>
+                <th>Data</th>
+                <th>Forma</th>
+                <th className="text-right">Valor</th>
               </tr>
             </thead>
             <tbody>
               {lancamentosFiltrados.map((l) => (
-                <tr key={l.id} className="border-b last:border-0 hover:bg-muted/30 transition-colors">
-                  <td className="p-3 text-foreground">{l.descricao}</td>
-                  <td className="p-3">
-                    <span className={`badge-status ${l.tipo === "entrada" ? "bg-success/15 text-success" : "bg-destructive/15 text-destructive"}`}>
+                <tr key={l.id}>
+                  <td className="font-medium text-foreground">{l.descricao}</td>
+                  <td>
+                    <span className={cn(
+                      "badge-status",
+                      l.tipo === "entrada" ? "bg-success/10 text-success border border-success/20" : "bg-destructive/10 text-destructive border border-destructive/20"
+                    )}>
                       {l.tipo === "entrada" ? "Entrada" : "Saída"}
                     </span>
                   </td>
-                  <td className="p-3 text-muted-foreground">{l.data}</td>
-                  <td className="p-3 text-muted-foreground">{l.forma}</td>
-                  <td className={`p-3 text-right font-medium ${l.tipo === "entrada" ? "text-success" : "text-destructive"}`}>
+                  <td className="text-muted-foreground tabular-nums">{l.data}</td>
+                  <td className="text-muted-foreground">{l.forma}</td>
+                  <td className={cn("text-right font-semibold tabular-nums", l.tipo === "entrada" ? "text-success" : "text-destructive")}>
                     {l.tipo === "entrada" ? "+" : "-"} {l.valor}
                   </td>
                 </tr>
