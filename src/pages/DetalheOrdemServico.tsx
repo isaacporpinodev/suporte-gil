@@ -3,7 +3,7 @@ import { TituloPagina } from "@/components/TituloPagina";
 import { BadgeStatus } from "@/components/BadgeStatus";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Printer, Tag, CreditCard, CheckCircle2, Clock, Wrench, PackageCheck, ClipboardList, Banknote, QrCode, CreditCard as CardIcon } from "lucide-react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
 const etapasTimeline = [
@@ -20,19 +20,28 @@ const pecasUtilizadas = [
 
 export default function PaginaDetalheOS() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { id } = useParams();
 
   const subtotal = 200;
   const maoDeObra = 150;
   const desconto = 0;
   const total = subtotal + maoDeObra - desconto;
+  const handleVoltar = () => {
+    if (location.key !== "default") {
+      navigate(-1);
+      return;
+    }
+
+    navigate("/");
+  };
 
   return (
     <LayoutPrincipal>
       <TituloPagina
         titulo={`Ordem de Serviço ${id || "OS-0042"}`}
         acao={
-          <Button variant="ghost" onClick={() => navigate("/ordens")} className="gap-2 text-muted-foreground h-9">
+          <Button variant="ghost" onClick={handleVoltar} className="gap-2 text-muted-foreground h-9">
             <ArrowLeft className="h-4 w-4" />
             Voltar
           </Button>

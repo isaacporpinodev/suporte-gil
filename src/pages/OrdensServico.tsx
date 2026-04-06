@@ -4,8 +4,8 @@ import { TituloPagina } from "@/components/TituloPagina";
 import { BadgeStatus, StatusOrdemServico } from "@/components/BadgeStatus";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Plus, Search } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { ArrowLeft, Plus, Search } from "lucide-react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const ordensServico = [
   { id: "OS-0042", cliente: "Maria Silva", telefone: "(11) 99999-1234", aparelho: "iPhone 14 Pro", status: "em_andamento" as StatusOrdemServico, dataEntrada: "01/04/2026", valor: "R$ 350,00" },
@@ -31,6 +31,16 @@ export default function PaginaOrdens() {
   const [busca, setBusca] = useState("");
   const [filtroStatus, setFiltroStatus] = useState<StatusOrdemServico | "todas">("todas");
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleVoltar = () => {
+    if (location.key !== "default") {
+      navigate(-1);
+      return;
+    }
+
+    navigate("/");
+  };
 
   const ordensFiltradas = ordensServico.filter((os) => {
     const matchBusca =
@@ -48,10 +58,16 @@ export default function PaginaOrdens() {
         titulo="Ordens de Serviço"
         descricao="Gerencie todas as ordens de serviço"
         acao={
-          <Button onClick={() => navigate("/ordens/nova")} className="gap-2 shadow-sm h-10 px-5">
-            <Plus className="h-4 w-4" />
-            Nova Ordem de Serviço
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button variant="ghost" onClick={handleVoltar} className="gap-2 text-muted-foreground h-10 px-4">
+              <ArrowLeft className="h-4 w-4" />
+              Voltar
+            </Button>
+            <Button onClick={() => navigate("/ordens/nova")} className="gap-2 shadow-sm h-10 px-5">
+              <Plus className="h-4 w-4" />
+              Nova Ordem de Serviço
+            </Button>
+          </div>
         }
       />
 

@@ -2,10 +2,12 @@ import { useState } from "react";
 import { LayoutPrincipal } from "@/components/LayoutPrincipal";
 import { TituloPagina } from "@/components/TituloPagina";
 import { CardResumo } from "@/components/CardResumo";
-import { TrendingUp, TrendingDown, Wallet } from "lucide-react";
+import { TrendingUp, TrendingDown, Wallet, ArrowLeft } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
 const lancamentos = [
   { id: 1, descricao: "OS-0039 - Carlos Oliveira", tipo: "entrada" as const, valor: "R$ 150,00", data: "01/04/2026", forma: "Pix" },
@@ -24,6 +26,17 @@ const filtrosTipo = [
 
 export default function PaginaFinanceiro() {
   const [filtroTipo, setFiltroTipo] = useState("todos");
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleVoltar = () => {
+    if (location.key !== "default") {
+      navigate(-1);
+      return;
+    }
+
+    navigate("/");
+  };
 
   const lancamentosFiltrados = lancamentos.filter(
     (l) => filtroTipo === "todos" || l.tipo === filtroTipo
@@ -31,7 +44,16 @@ export default function PaginaFinanceiro() {
 
   return (
     <LayoutPrincipal>
-      <TituloPagina titulo="Financeiro" descricao="Controle financeiro gerencial" />
+      <TituloPagina
+        titulo="Financeiro"
+        descricao="Controle financeiro gerencial"
+        acao={
+          <Button variant="ghost" onClick={handleVoltar} className="gap-2 text-muted-foreground h-10 px-4">
+            <ArrowLeft className="h-4 w-4" />
+            Voltar
+          </Button>
+        }
+      />
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
         <CardResumo titulo="Total Entradas" valor="R$ 1.200,00" icone={TrendingUp} variante="sucesso" />
