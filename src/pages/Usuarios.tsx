@@ -1,8 +1,9 @@
 import { LayoutPrincipal } from "@/components/LayoutPrincipal";
 import { TituloPagina } from "@/components/TituloPagina";
 import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
+import { ArrowLeft, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const usuarios = [
   { id: 1, nome: "Admin Master", email: "admin@techassist.com", perfil: "Admin Master", status: "Ativo" },
@@ -19,16 +20,34 @@ const corPerfil: Record<string, string> = {
 };
 
 export default function PaginaUsuarios() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleVoltar = () => {
+    if (location.key !== "default") {
+      navigate(-1);
+      return;
+    }
+
+    navigate("/");
+  };
+
   return (
     <LayoutPrincipal>
       <TituloPagina
         titulo="Usuários"
         descricao="Gerenciamento de usuários do sistema"
         acao={
-          <Button className="gap-2 shadow-sm h-10 px-5">
-            <Plus className="h-4 w-4" />
-            Novo Usuário
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button variant="ghost" onClick={handleVoltar} className="gap-2 text-muted-foreground h-10 px-4">
+              <ArrowLeft className="h-4 w-4" />
+              Voltar
+            </Button>
+            <Button className="gap-2 shadow-sm h-10 px-5">
+              <Plus className="h-4 w-4" />
+              Novo Usuário
+            </Button>
+          </div>
         }
       />
 

@@ -8,12 +8,10 @@ import PaginaOrdens from "./pages/OrdensServico";
 import PaginaNovaOS from "./pages/NovaOrdemServico";
 import PaginaDetalheOS from "./pages/DetalheOrdemServico";
 import PaginaClientes from "./pages/Clientes";
-import PaginaAparelhos from "./pages/Aparelhos";
 import PaginaEstoque from "./pages/Estoque";
 import PaginaNovoProduto from "./pages/NovoProduto";
 import PaginaFinanceiro from "./pages/Financeiro";
 import PaginaUsuarios from "./pages/Usuarios";
-import PaginaRelatorios from "./pages/Relatorios";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -30,12 +28,10 @@ const App = () => (
           <Route path="/ordens/nova" element={<PaginaNovaOS />} />
           <Route path="/ordens/:id" element={<PaginaDetalheOS />} />
           <Route path="/clientes" element={<PaginaClientes />} />
-          <Route path="/aparelhos" element={<PaginaAparelhos />} />
           <Route path="/estoque" element={<PaginaEstoque />} />
           <Route path="/estoque/novo" element={<PaginaNovoProduto />} />
           <Route path="/financeiro" element={<PaginaFinanceiro />} />
           <Route path="/usuarios" element={<PaginaUsuarios />} />
-          <Route path="/relatorios" element={<PaginaRelatorios />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

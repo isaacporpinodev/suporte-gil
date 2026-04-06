@@ -3,8 +3,8 @@ import { LayoutPrincipal } from "@/components/LayoutPrincipal";
 import { TituloPagina } from "@/components/TituloPagina";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Plus, Search, AlertTriangle } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { Plus, Search, AlertTriangle, ArrowLeft } from "lucide-react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
 const produtos = [
@@ -20,6 +20,16 @@ const produtos = [
 export default function PaginaEstoque() {
   const [busca, setBusca] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleVoltar = () => {
+    if (location.key !== "default") {
+      navigate(-1);
+      return;
+    }
+
+    navigate("/");
+  };
 
   const produtosFiltrados = produtos.filter(
     (p) => busca === "" || p.nome.toLowerCase().includes(busca.toLowerCase()) || p.categoria.toLowerCase().includes(busca.toLowerCase())
@@ -31,10 +41,16 @@ export default function PaginaEstoque() {
         titulo="Estoque"
         descricao="Controle de peças e produtos"
         acao={
-          <Button onClick={() => navigate("/estoque/novo")} className="gap-2 shadow-sm h-10 px-5">
-            <Plus className="h-4 w-4" />
-            Novo Produto
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button variant="ghost" onClick={handleVoltar} className="gap-2 text-muted-foreground h-10 px-4">
+              <ArrowLeft className="h-4 w-4" />
+              Voltar
+            </Button>
+            <Button onClick={() => navigate("/estoque/novo")} className="gap-2 shadow-sm h-10 px-5">
+              <Plus className="h-4 w-4" />
+              Novo Produto
+            </Button>
+          </div>
         }
       />
 

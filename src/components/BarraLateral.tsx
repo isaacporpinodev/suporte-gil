@@ -1,16 +1,13 @@
 import {
   LayoutDashboard,
   Users,
-  Smartphone,
   ClipboardList,
   Package,
   DollarSign,
   UserCog,
-  BarChart3,
   Wrench,
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
-import { useLocation } from "react-router-dom";
 import {
   Sidebar,
   SidebarContent,
@@ -27,14 +24,12 @@ const menuPrincipal = [
   { titulo: "Dashboard", url: "/", icone: LayoutDashboard },
   { titulo: "Ordens de Serviço", url: "/ordens", icone: ClipboardList },
   { titulo: "Clientes", url: "/clientes", icone: Users },
-  { titulo: "Aparelhos", url: "/aparelhos", icone: Smartphone },
 ];
 
 const menuGestao = [
   { titulo: "Estoque", url: "/estoque", icone: Package },
   { titulo: "Financeiro", url: "/financeiro", icone: DollarSign },
   { titulo: "Usuários", url: "/usuarios", icone: UserCog },
-  { titulo: "Relatórios", url: "/relatorios", icone: BarChart3 },
 ];
 
 export function BarraLateral() {
