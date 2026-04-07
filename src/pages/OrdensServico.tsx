@@ -27,11 +27,17 @@ const filtrosStatus: { label: string; valor: StatusOrdemServico | "todas" }[] = 
   { label: "Canceladas", valor: "cancelada" },
 ];
 
+type OrdensServicoLocationState = {
+  buscaInicial?: string;
+  filtroInicial?: StatusOrdemServico | "todas";
+};
+
 export default function PaginaOrdens() {
-  const [busca, setBusca] = useState("");
-  const [filtroStatus, setFiltroStatus] = useState<StatusOrdemServico | "todas">("todas");
   const navigate = useNavigate();
   const location = useLocation();
+  const locationState = (location.state ?? {}) as OrdensServicoLocationState;
+  const [busca, setBusca] = useState(locationState.buscaInicial ?? "");
+  const [filtroStatus, setFiltroStatus] = useState<StatusOrdemServico | "todas">(locationState.filtroInicial ?? "todas");
 
   const handleVoltar = () => {
     if (location.key !== "default") {

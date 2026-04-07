@@ -41,7 +41,7 @@ export default function PaginaDashboard() {
       variante: "info" as const,
       descricao: "Ordens aguardando triagem ou início do reparo.",
       rotuloAcao: "Abrir fila inicial",
-      onClick: () => navigate("/ordens"),
+      onClick: () => navigate("/ordens", { state: { filtroInicial: "aberta" } }),
     },
     {
       titulo: "Em Andamento",
@@ -50,7 +50,7 @@ export default function PaginaDashboard() {
       variante: "alerta" as const,
       descricao: "Acompanhe os reparos já em execução no laboratório.",
       rotuloAcao: "Ver ordens em execução",
-      onClick: () => navigate("/ordens"),
+      onClick: () => navigate("/ordens", { state: { filtroInicial: "em_andamento" } }),
     },
     {
       titulo: "Prontas",
@@ -59,7 +59,7 @@ export default function PaginaDashboard() {
       variante: "sucesso" as const,
       descricao: "Equipamentos finalizados e liberados para entrega.",
       rotuloAcao: "Ver ordens prontas",
-      onClick: () => navigate("/ordens"),
+      onClick: () => navigate("/ordens", { state: { filtroInicial: "pronta" } }),
     },
     {
       titulo: "Entregues Hoje",
@@ -68,7 +68,7 @@ export default function PaginaDashboard() {
       variante: "sucesso" as const,
       descricao: "Saídas concluídas no dia com atendimento encerrado.",
       rotuloAcao: "Consultar entregas",
-      onClick: () => navigate("/ordens"),
+      onClick: () => navigate("/ordens", { state: { filtroInicial: "entregue" } }),
     },
     {
       titulo: "Faturamento do Dia",
