@@ -4,6 +4,7 @@ import { TituloPagina } from "@/components/TituloPagina";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Plus, Search } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const clientes = [
   { id: 1, nome: "Maria Silva", telefone: "(11) 99999-1234", quantidadeOS: 5, ultimaOS: "01/04/2026" },
@@ -17,6 +18,7 @@ const clientes = [
 
 export default function PaginaClientes() {
   const [busca, setBusca] = useState("");
+  const navigate = useNavigate();
 
   const clientesFiltrados = clientes.filter(
     (c) => busca === "" || c.nome.toLowerCase().includes(busca.toLowerCase()) || c.telefone.includes(busca)
@@ -28,7 +30,7 @@ export default function PaginaClientes() {
         titulo="Clientes"
         descricao="Cadastro e histórico de clientes"
         acao={
-          <Button className="gap-2 shadow-sm h-10 px-5">
+          <Button onClick={() => navigate("/clientes/novo")} className="gap-2 shadow-sm h-10 px-5">
             <Plus className="h-4 w-4" />
             Novo Cliente
           </Button>
