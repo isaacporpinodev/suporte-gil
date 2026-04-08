@@ -69,7 +69,7 @@ export function BarraSuperior() {
 
   return (
     <header className="h-[56px] flex items-center gap-4 border-b border-border/60 bg-card/80 backdrop-blur-sm px-5 shrink-0 sticky top-0 z-30">
-      <SidebarTrigger className="text-muted-foreground hover:text-foreground transition-colors" />
+      <SidebarTrigger className="h-9 w-9 rounded-lg border border-border/70 bg-background text-muted-foreground shadow-sm transition-colors hover:text-foreground hover:bg-muted/60" />
 
       <div className="flex-1 max-w-md">
         <form onSubmit={handleSubmit} className="relative">

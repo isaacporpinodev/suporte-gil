@@ -40,9 +40,23 @@ export function BarraLateral() {
     <Sidebar collapsible="icon">
       <SidebarContent>
         {/* Logo */}
-        <div className="px-4 py-5 flex items-center gap-3">
-          <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-sidebar-primary to-sidebar-primary/70 flex items-center justify-center shrink-0 shadow-lg shadow-sidebar-primary/20">
-            <Wrench className="h-4.5 w-4.5 text-sidebar-primary-foreground" />
+        <div
+          className={
+            collapsed
+              ? "flex items-center justify-center px-2 py-5 transition-all duration-200"
+              : "flex items-center gap-3 px-4 py-5 transition-all duration-200"
+          }
+        >
+          <div
+            className={
+              collapsed
+                ? "flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-sidebar-primary to-sidebar-primary/70 shadow-lg shadow-sidebar-primary/20 transition-all duration-200"
+                : "flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-sidebar-primary to-sidebar-primary/70 shadow-lg shadow-sidebar-primary/20 transition-all duration-200"
+            }
+          >
+            <Wrench
+              className={collapsed ? "h-4 w-4 text-sidebar-primary-foreground" : "h-4.5 w-4.5 text-sidebar-primary-foreground"}
+            />
           </div>
           {!collapsed && (
             <div className="flex flex-col">

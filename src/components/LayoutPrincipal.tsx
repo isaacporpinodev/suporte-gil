@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { BarraSuperior } from "./BarraSuperior";
 import { BarraLateral } from "./BarraLateral";
-import { SidebarProvider } from "@/components/ui/sidebar";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
 interface LayoutPrincipalProps {
   children: ReactNode;
@@ -10,14 +10,14 @@ interface LayoutPrincipalProps {
 export function LayoutPrincipal({ children }: LayoutPrincipalProps) {
   return (
     <SidebarProvider>
-      <div className="min-h-screen flex w-full bg-background">
+      <div className="min-h-screen flex w-full bg-[radial-gradient(circle_at_top,_hsl(var(--primary)/0.08),_transparent_28%),linear-gradient(180deg,_hsl(var(--background)),_hsl(var(--background)))]">
         <BarraLateral />
-        <div className="flex-1 flex flex-col min-w-0">
+        <SidebarInset className="min-w-0 bg-transparent">
           <BarraSuperior />
-          <main className="flex-1 p-6 lg:p-8 overflow-auto">
+          <main className="flex-1 overflow-auto px-4 py-5 sm:px-6 lg:px-8 lg:py-7">
             {children}
           </main>
-        </div>
+        </SidebarInset>
       </div>
     </SidebarProvider>
   );
